@@ -46,12 +46,14 @@ function checkSquares() {
     }
 }
 
+// create a line to append to the table of errors
 function createLine({ error, array }) {
     const row = document.createElement('tr');
     const message = document.createElement('td');
     message.appendChild(document.createTextNode(error));
     message.setAttribute('style', 'border: 1px solid black; padding: 10px');
     row.append(message);
+
     for (const num of array) {
         const col = document.createElement('td');
         col.setAttribute('style', 'border: 1px solid black; padding: 10px');
@@ -62,6 +64,7 @@ function createLine({ error, array }) {
     return row;
 }
 
+// display whether the table contains any errors or is correctly filled
 function displayErrors() {
     // check for mistakes in sudoku grid
     const errors = [checkRows(), checkColumns(), checkSquares()];
