@@ -1,30 +1,37 @@
 // check if all rows are valid
 function checkRows() {
+    let errors = [];
     for (let row = 0; row < SIZE; row++) {
         if (!validArray(to_verify[row])) {
-            return {
+            errors.push({
                 error: `Line ${row + 1} incorrect`,
                 array: to_verify[row]
-            }
+            });
         }
     }
+
+    return errors;
 }
 
 // check if all columns are valid
 function checkColumns() {
+    let errors = [];
     for (let col = 0; col < SIZE; col++) {
         let column = to_verify.map(row => row[col]);
         if (!validArray(column)) {
-            return {
+            errors.push({
                 error: `Column ${col + 1} incorrect`,
                 array: column
-            };
+            });
         }
     }
+
+    return errors;
 }
 
 // check if all squares are valid
 function checkSquares() {
+    let errors = [];
     // calculate index of the invalid square
     const squareIndex = (row, col) => {
         const SQUARE_SIZE = 3;
@@ -37,13 +44,15 @@ function checkSquares() {
         for (let col = 0; col < SIZE; col += 3) {
             let square = to_verify.slice(row, row + 3).flatMap(r => r.slice(col, col + 3));
             if (!validArray(square)) {
-                return {
+                errors.push({
                     error: `Square ${squareIndex(row, col)} incorrect`,
                     array: square
-                };
+                });
             }
         }
     }
+
+    return errors;
 }
 
 // create a line to append to the table of errors
@@ -67,7 +76,7 @@ function createLine({ error, array }) {
 // display whether the table contains any errors or is correctly filled
 function displayErrors() {
     // check for mistakes in sudoku grid
-    const errors = [checkRows(), checkColumns(), checkSquares()];
+    const errors = [...checkRows(), ...checkColumns(), ...checkSquares()];
 
     if (errors.some(_ => _)) {
         // create table to display errors
